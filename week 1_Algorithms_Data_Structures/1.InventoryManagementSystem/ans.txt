@@ -1,0 +1,164 @@
+Step 1: Understand the Problem
+Importance of Data Structures and Algorithms
+Data structures and algorithms are crucial in managing large inventories for several reasons:
+
+Efficiency: They help in storing and retrieving data quickly, which is essential for real-time inventory management.
+Scalability: As the number of products grows, efficient data structures ensure that operations like searching, updating, and deleting remain fast.
+Memory Usage: Proper choice of data structures helps in optimizing memory usage, which is important for handling large datasets.
+
+
+Suitable Data Structures
+
+1.ArrayList:
+
+Advantages: Provides constant-time access to elements by index, and efficient for operations where elements are frequently added or removed from the end.
+Disadvantages: Slow for searching and deleting elements by value as it requires linear time complexity.
+
+2.HashMap:
+
+Advantages: Provides constant-time complexity (O(1)) for adding, updating, and retrieving elements if the hash function distributes elements uniformly.
+Disadvantages: Consumes more memory due to hashing and might have slower performance if the hash table is resized or if hash collisions occur.
+
+3.TreeMap:
+
+Advantages: Maintains elements in a sorted order and provides logarithmic time complexity (O(log n)) for add, update, and delete operations.
+Disadvantages: Slower compared to HashMap for retrieval operations due to the need to maintain order.
+
+
+Step 2: Setup
+Create a new project named InventoryManagementSystem.
+
+Step 3: Implementation
+Define the Product Class
+
+// Product.java
+public class Product {
+    private String productId;
+    private String productName;
+    private int quantity;
+    private double price;
+
+    public Product(String productId, String productName, int quantity, double price) {
+        this.productId = productId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId='" + productId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
+}
+
+Choose Data Structure and Implement Methods
+We'll use HashMap for efficient data retrieval and manipulation. The key will be productId, and the value will be the Product object.
+
+// InventoryManager.java
+import java.util.HashMap;
+import java.util.Map;
+
+public class InventoryManager {
+    private Map<String, Product> inventory;
+
+    public InventoryManager() {
+        inventory = new HashMap<>();
+    }
+
+    public void addProduct(Product product) {
+        inventory.put(product.getProductId(), product);
+    }
+
+    public void updateProduct(Product product) {
+        if (inventory.containsKey(product.getProductId())) {
+            inventory.put(product.getProductId(), product);
+        } else {
+            System.out.println("Product not found.");
+        }
+    }
+
+    public void deleteProduct(String productId) {
+        if (inventory.containsKey(productId)) {
+            inventory.remove(productId);
+        } else {
+            System.out.println("Product not found.");
+        }
+    }
+
+    public Product getProduct(String productId) {
+        return inventory.get(productId);
+    }
+
+    public void displayAllProducts() {
+        for (Product product : inventory.values()) {
+            System.out.println(product);
+        }
+    }
+}
+
+Step 4: Analysis
+Time Complexity
+
+1.Add Product:
+
+HashMap: O(1) on average. The time complexity is constant due to direct access using hashing.
+ArrayList: O(n) in the worst case if we need to search for a position.
+
+2.Update Product:
+
+HashMap: O(1) on average. Direct access by key allows for quick updates.
+ArrayList: O(n) if searching by product ID.
+
+3.Delete Product:
+
+HashMap: O(1) on average. Direct access by key allows for quick deletion.
+ArrayList: O(n) if searching by product ID.
+
+Optimization Strategies
+
+1.HashMap:
+
+Ensure a good hash function to minimize collisions and maintain constant-time complexity.
+Adjust the initial capacity and load factor to optimize performance based on expected number of entries.
+
+2.Alternative Data Structures:
+
+For large datasets where order matters, consider TreeMap for logarithmic time complexity but note the trade-off in performance.
+For scenarios with frequent updates and less frequent lookups, LinkedHashMap can maintain insertion order and provide efficient updates.

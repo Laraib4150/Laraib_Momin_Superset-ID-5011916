@@ -1,0 +1,110 @@
+Step 1: Create a New Java Project
+Let's assume you've created a new Java project named DecoratorPatternExample.
+
+Step 2: Define Component Interface
+Create an interface Notifier with a method send().
+
+// Notifier.java
+public interface Notifier {
+    void send(String message);
+}
+
+Step 3: Implement Concrete Component
+Create a class EmailNotifier that implements Notifier.
+
+// EmailNotifier.java
+public class EmailNotifier implements Notifier {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending email with message: " + message);
+    }
+}
+
+Step 4: Implement Decorator Classes
+Create an abstract decorator class NotifierDecorator that implements Notifier and holds a reference to a Notifier object.
+
+
+// NotifierDecorator.java
+public abstract class NotifierDecorator implements Notifier {
+    protected Notifier wrappedNotifier;
+
+    public NotifierDecorator(Notifier notifier) {
+        this.wrappedNotifier = notifier;
+    }
+
+    @Override
+    public void send(String message) {
+        wrappedNotifier.send(message);
+    }
+}
+
+Create concrete decorator classes like SMSNotifierDecorator, SlackNotifierDecorator that extend NotifierDecorator.
+
+// SMSNotifierDecorator.java
+public class SMSNotifierDecorator extends NotifierDecorator {
+    public SMSNotifierDecorator(Notifier notifier) {
+        super(notifier);
+    }
+
+    @Override
+    public void send(String message) {
+        super.send(message);
+        sendSMS(message);
+    }
+
+    private void sendSMS(String message) {
+        System.out.println("Sending SMS with message: " + message);
+    }
+}
+
+// SlackNotifierDecorator.java
+public class SlackNotifierDecorator extends NotifierDecorator {
+    public SlackNotifierDecorator(Notifier notifier) {
+        super(notifier);
+    }
+
+    @Override
+    public void send(String message) {
+        super.send(message);
+        sendSlack(message);
+    }
+
+    private void sendSlack(String message) {
+        System.out.println("Sending Slack message: " + message);
+    }
+}
+
+Step 5: Test the Decorator Implementation
+Create a test class to demonstrate sending notifications via multiple channels using decorators.
+
+// DecoratorPatternExample.java
+public class DecoratorPatternExample {
+    public static void main(String[] args) {
+        Notifier emailNotifier = new EmailNotifier();
+
+        Notifier emailAndSMSNotifier = new SMSNotifierDecorator(emailNotifier);
+
+        Notifier emailAndSMSAndSlackNotifier = new SlackNotifierDecorator(emailAndSMSNotifier);
+
+        System.out.println("Sending notifications using Email and SMS:");
+        emailAndSMSNotifier.send("Hello World!");
+
+        System.out.println("\nSending notifications using Email, SMS, and Slack:");
+        emailAndSMSAndSlackNotifier.send("Hello World!");
+    }
+}
+
+When you run DecoratorPatternExample, you should see output similar to:
+
+Output:
+Sending notifications using Email and SMS:
+Sending email with message: Hello World!
+Sending SMS with message: Hello World!
+
+Sending notifications using Email, SMS, and Slack:
+Sending email with message: Hello World!
+Sending SMS with message: Hello World!
+Sending Slack message: Hello World!
+
+This confirms that the Decorator pattern is correctly implemented for adding functionalities dynamically to a notification system.
+

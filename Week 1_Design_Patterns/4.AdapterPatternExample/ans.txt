@@ -1,0 +1,112 @@
+Step 1: Create a New Java Project
+Let's assume you've created a new Java project named AdapterPatternExample.
+
+Step 2: Define Target Interface
+Create an interface PaymentProcessor with methods like processPayment().
+
+// PaymentProcessor.java
+public interface PaymentProcessor {
+    void processPayment(double amount);
+}
+
+Step 3: Implement Adaptee Classes
+Create classes for different payment gateways with their own methods.
+
+// PayPal.java
+public class PayPal {
+    public void makePayment(double amount) {
+        System.out.println("Processing payment of $" + amount + " through PayPal.");
+    }
+}
+
+// Stripe.java
+public class Stripe {
+    public void pay(double amount) {
+        System.out.println("Processing payment of $" + amount + " through Stripe.");
+    }
+}
+
+// Square.java
+public class Square {
+    public void doPayment(double amount) {
+        System.out.println("Processing payment of $" + amount + " through Square.");
+    }
+}
+
+Step 4: Implement the Adapter Class
+Create an adapter class for each payment gateway that implements PaymentProcessor and translates the calls to the gateway-specific methods.
+
+// PayPalAdapter.java
+public class PayPalAdapter implements PaymentProcessor {
+    private PayPal payPal;
+
+    public PayPalAdapter(PayPal payPal) {
+        this.payPal = payPal;
+    }
+
+    @Override
+    public void processPayment(double amount) {
+        payPal.makePayment(amount);
+    }
+}
+
+// StripeAdapter.java
+public class StripeAdapter implements PaymentProcessor {
+    private Stripe stripe;
+
+    public StripeAdapter(Stripe stripe) {
+        this.stripe = stripe;
+    }
+
+    @Override
+    public void processPayment(double amount) {
+        stripe.pay(amount);
+    }
+}
+
+// SquareAdapter.java
+public class SquareAdapter implements PaymentProcessor {
+    private Square square;
+
+    public SquareAdapter(Square square) {
+        this.square = square;
+    }
+
+    @Override
+    public void processPayment(double amount) {
+        square.doPayment(amount);
+    }
+}
+
+Step 5: Test the Adapter Implementation
+Create a test class to demonstrate the use of different payment gateways through the adapter.
+
+// AdapterPatternExample.java
+public class AdapterPatternExample {
+    public static void main(String[] args) {
+        // Create instances of the payment gateways
+        PayPal payPal = new PayPal();
+        Stripe stripe = new Stripe();
+        Square square = new Square();
+
+        // Create adapter instances
+        PaymentProcessor payPalAdapter = new PayPalAdapter(payPal);
+        PaymentProcessor stripeAdapter = new StripeAdapter(stripe);
+        PaymentProcessor squareAdapter = new SquareAdapter(square);
+
+        // Process payments through adapters
+        payPalAdapter.processPayment(100.00);
+        stripeAdapter.processPayment(200.00);
+        squareAdapter.processPayment(300.00);
+    }
+}
+
+When you run AdapterPatternExample, you should see output similar to:
+
+Processing payment of $100.0 through PayPal.
+Processing payment of $200.0 through Stripe.
+Processing payment of $300.0 through Square.
+
+This confirms that the Adapter pattern is correctly implemented for integrating multiple third-party payment gateways.
+
+

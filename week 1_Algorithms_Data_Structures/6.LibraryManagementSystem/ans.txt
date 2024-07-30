@@ -1,0 +1,160 @@
+Step 1: Understand Search Algorithms
+
+1.Linear Search
+    Definition: Linear search involves checking each element in a list sequentially until the target element is found or the list is exhausted.
+    Time Complexity: O(n), where n is the number of elements. Each element may need to be checked once in the worst case.
+    Advantages: Simple to implement and works with unsorted data.
+    Disadvantages: Inefficient for large datasets as it requires a full scan.
+
+2.Binary Search
+    Definition: Binary search involves dividing a sorted list into halves repeatedly until the target element is found or the sublist is empty.
+    Time Complexity: O(log n), where n is the number of elements. Each step halves the search space.
+    Advantages: Much faster than linear search for large datasets when the data is sorted.
+    Disadvantages: Requires sorted data and more complex to implement.
+
+
+
+Step 2: Setup
+Create a Book class with attributes like bookId, title, and author.
+
+// Book.java
+public class Book {
+    private String bookId;
+    private String title;
+    private String author;
+
+    public Book(String bookId, String title, String author) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookId='" + bookId + '\'' +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                '}';
+    }
+}
+
+Step 3: Implementation
+Linear Search
+Implement linear search to find books by title.
+
+// LibraryManagementSystem.java
+import java.util.ArrayList;
+import java.util.List;
+
+public class LibraryManagementSystem {
+    private List<Book> books;
+
+    public LibraryManagementSystem() {
+        books = new ArrayList<>();
+    }
+
+    // Add Book
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    // Linear Search by Title
+    public Book findBookByTitleLinear(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                return book;
+            }
+        }
+        return null; // Not found
+    }
+
+    // Sort books by title for binary search
+    public void sortBooksByTitle() {
+        books.sort((b1, b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle()));
+    }
+
+    // Binary Search by Title
+    public Book findBookByTitleBinary(String title) {
+        int left = 0;
+        int right = books.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int comparison = books.get(mid).getTitle().compareToIgnoreCase(title);
+
+            if (comparison == 0) {
+                return books.get(mid);
+            } else if (comparison < 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return null; // Not found
+    }
+}
+
+Step 4: Analysis
+Time Complexity
+Linear Search:
+
+Time Complexity: O(n). In the worst case, you might have to check every book in the list.
+Space Complexity: O(1), as it only requires a constant amount of extra space.
+Binary Search:
+
+Time Complexity: O(log n). Requires sorted data and significantly reduces search time by dividing the search space in half each time.
+Space Complexity: O(1), assuming you’re using iterative binary search.
+
+Ques.When to Use Each Algorithm
+
+    1.Linear Search:
+
+        Use Case: When dealing with unsorted data or small datasets. Simple and effective when sorting is not feasible or necessary.
+        Advantages: No need for sorting, easier to implement.
+        Disadvantages: Slower performance for large datasets.
+
+    2.Binary Search:
+
+        Use Case: When dealing with large datasets that are already sorted or when sorting is done once and searches are performed frequently.
+        Advantages: Much faster for large datasets due to logarithmic time complexity.
+        Disadvantages: Requires the data to be sorted, which may involve additional overhead for sorting.
+
+
+Example Usage
+// Main.java
+public class Main {
+    public static void main(String[] args) {
+        LibraryManagementSystem library = new LibraryManagementSystem();
+
+        // Adding Books
+        library.addBook(new Book("B001", "Java Programming", "Alice Smith"));
+        library.addBook(new Book("B002", "Data Structures", "Bob Brown"));
+        library.addBook(new Book("B003", "Algorithms", "Carol Johnson"));
+
+        // Linear Search
+        System.out.println("Linear Search Result: " + library.findBookByTitleLinear("Data Structures"));
+
+        // Sort Books and Perform Binary Search
+        library.sortBooksByTitle();
+        System.out.println("Binary Search Result: " + library.findBookByTitleBinary("Algorithms"));
+    }
+}
+
+Output:
+Linear Search Result: Book{bookId='B002', title='Data Structures', author='Bob Brown'}
+Binary Search Result: Book{bookId='B003', title='Algorithms', author='Carol Johnson'}
+
+This implementation demonstrates the use of linear and binary search algorithms in a library management system, providing an efficient way to handle book searches depending on the dataset size and sorting requirements.
+

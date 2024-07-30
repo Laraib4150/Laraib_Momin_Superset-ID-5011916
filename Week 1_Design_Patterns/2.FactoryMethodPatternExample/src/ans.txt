@@ -1,0 +1,126 @@
+Step 1: Create a New Java Project
+Let's assume you've created a new Java project named FactoryMethodPatternExample.
+
+Step 2: Define Document Classes
+Define interfaces or abstract classes for different document types such as Document, WordDocument, PdfDocument, and ExcelDocument.
+
+// Document.java
+public interface Document {
+    void open();
+    void close();
+}
+
+// WordDocument.java
+public class WordDocument implements Document {
+    @Override
+    public void open() {
+        System.out.println("Opening Word document.");
+    }
+
+    @Override
+    public void close() {
+        System.out.println("Closing Word document.");
+    }
+}
+
+// PdfDocument.java
+public class PdfDocument implements Document {
+    @Override
+    public void open() {
+        System.out.println("Opening PDF document.");
+    }
+
+    @Override
+    public void close() {
+        System.out.println("Closing PDF document.");
+    }
+}
+
+// ExcelDocument.java
+public class ExcelDocument implements Document {
+    @Override
+    public void open() {
+        System.out.println("Opening Excel document.");
+    }
+
+    @Override
+    public void close() {
+        System.out.println("Closing Excel document.");
+    }
+}
+
+
+Step 3: Create Concrete Document Classes
+The concrete classes (WordDocument, PdfDocument, ExcelDocument) have been created above and implement the Document interface.
+
+Step 4: Implement the Factory Method
+Create an abstract class DocumentFactory with a method createDocument(). Then, create concrete factory classes for each document type that extends DocumentFactory and implements the createDocument() method.
+
+// DocumentFactory.java
+public abstract class DocumentFactory {
+    public abstract Document createDocument();
+}
+
+// WordDocumentFactory.java
+public class WordDocumentFactory extends DocumentFactory {
+    @Override
+    public Document createDocument() {
+        return new WordDocument();
+    }
+}
+
+// PdfDocumentFactory.java
+public class PdfDocumentFactory extends DocumentFactory {
+    @Override
+    public Document createDocument() {
+        return new PdfDocument();
+    }
+}
+
+// ExcelDocumentFactory.java
+public class ExcelDocumentFactory extends DocumentFactory {
+    @Override
+    public Document createDocument() {
+        return new ExcelDocument();
+    }
+}
+
+Step 5: Test the Factory Method Implementation
+Create a test class to demonstrate the creation of different document types using the factory method.
+
+// FactoryMethodPatternExample.java
+public class FactoryMethodPatternExample {
+    public static void main(String[] args) {
+        // Create factories
+        DocumentFactory wordFactory = new WordDocumentFactory();
+        DocumentFactory pdfFactory = new PdfDocumentFactory();
+        DocumentFactory excelFactory = new ExcelDocumentFactory();
+
+        // Create documents
+        Document wordDoc = wordFactory.createDocument();
+        Document pdfDoc = pdfFactory.createDocument();
+        Document excelDoc = excelFactory.createDocument();
+
+        // Use the documents
+        wordDoc.open();
+        wordDoc.close();
+
+        pdfDoc.open();
+        pdfDoc.close();
+
+        excelDoc.open();
+        excelDoc.close();
+    }
+}
+
+When you run FactoryMethodPatternExample, you should see:
+
+Output:
+Opening Word document.
+Closing Word document.
+Opening PDF document.
+Closing PDF document.
+Opening Excel document.
+Closing Excel document.
+
+This confirms that the Factory Method pattern is correctly implemented for creating different document types.

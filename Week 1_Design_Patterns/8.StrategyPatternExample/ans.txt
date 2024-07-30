@@ -1,0 +1,95 @@
+Step 1: Create a New Java Project
+Let's assume you've created a new Java project named StrategyPatternExample.
+
+Step 2: Define Strategy Interface
+Create an interface PaymentStrategy with a method pay().
+
+// PaymentStrategy.java
+public interface PaymentStrategy {
+    void pay(double amount);
+}
+
+Step 3: Implement Concrete Strategies
+Create classes CreditCardPayment and PayPalPayment that implement PaymentStrategy.
+
+// CreditCardPayment.java
+public class CreditCardPayment implements PaymentStrategy {
+    private String cardNumber;
+    private String cardHolderName;
+    private String cvv;
+    private String expiryDate;
+
+    public CreditCardPayment(String cardNumber, String cardHolderName, String cvv, String expiryDate) {
+        this.cardNumber = cardNumber;
+        this.cardHolderName = cardHolderName;
+        this.cvv = cvv;
+        this.expiryDate = expiryDate;
+    }
+
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using Credit Card.");
+    }
+}
+
+// PayPalPayment.java
+public class PayPalPayment implements PaymentStrategy {
+    private String email;
+    private String password;
+
+    public PayPalPayment(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using PayPal.");
+    }
+}
+
+Step 4: Implement Context Class
+Create a class PaymentContext that holds a reference to PaymentStrategy and a method to execute the strategy.
+
+// PaymentContext.java
+public class PaymentContext {
+    private PaymentStrategy paymentStrategy;
+
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    public void pay(double amount) {
+        paymentStrategy.pay(amount);
+    }
+}
+
+Step 5: Test the Strategy Implementation
+Create a test class to demonstrate selecting and using different payment strategies.
+
+// StrategyPatternExample.java
+public class StrategyPatternExample {
+    public static void main(String[] args) {
+        PaymentContext context = new PaymentContext();
+
+        // Pay using Credit Card
+        PaymentStrategy creditCardPayment = new CreditCardPayment("1234567890123456", "John Doe", "123", "12/23");
+        context.setPaymentStrategy(creditCardPayment);
+        context.pay(250.75);
+
+        // Pay using PayPal
+        PaymentStrategy payPalPayment = new PayPalPayment("john.doe@example.com", "password123");
+        context.setPaymentStrategy(payPalPayment);
+        context.pay(89.99);
+    }
+}
+
+When you run StrategyPatternExample, you should see output similar to:
+
+Output:
+Paid 250.75 using Credit Card.
+Paid 89.99 using PayPal.
+
+This confirms that the Strategy pattern is correctly implemented for selecting and using different payment methods at runtime.
+
+

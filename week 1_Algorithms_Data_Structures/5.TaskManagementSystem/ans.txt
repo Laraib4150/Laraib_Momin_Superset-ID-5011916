@@ -1,0 +1,206 @@
+Step 1: Understand Linked Lists
+
+1.Singly Linked List
+Structure: A singly linked list consists of nodes, where each node contains data and a reference (or link) to the next node in the sequence.
+Operations:
+    Add (Insert) Node: Inserting a new node involves updating the next reference of a node to point to the new node.
+    Search Node: Traversing the list from the head node until the desired node is found.
+    Delete Node: Removing a node involves updating the next reference of the previous node to skip the node to be deleted.
+    Traverse: Iterating through the nodes starting from the head and following the next references.
+
+2.Doubly Linked List
+    Structure: A doubly linked list is similar to a singly linked list, but each node contains two references: one to the next node and one to the previous node. This allows traversal in both directions.
+    Operations: Similar to singly linked lists but with added complexity for handling the previous references.
+
+
+Step 2: Setup
+Create a class Task with attributes such as taskId, taskName, and status.
+
+// Task.java
+public class Task {
+    private String taskId;
+    private String taskName;
+    private String status;
+
+    public Task(String taskId, String taskName, String status) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.status = status;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId='" + taskId + '\'' +
+                ", taskName='" + taskName + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+}
+
+Step 3: Implementation
+
+Singly Linked List
+Implement a singly linked list to manage tasks.
+
+// Node.java
+class Node {
+    Task task;
+    Node next;
+
+    public Node(Task task) {
+        this.task = task;
+        this.next = null;
+    }
+}
+
+// TaskManagementSystem.java
+public class TaskManagementSystem {
+    private Node head;
+
+    public TaskManagementSystem() {
+        head = null;
+    }
+
+    // Add Task
+    public void addTask(Task task) {
+        Node newNode = new Node(task);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+    }
+
+    // Search Task by ID
+    public Task searchTaskById(String taskId) {
+        Node current = head;
+        while (current != null) {
+            if (current.task.getTaskId().equals(taskId)) {
+                return current.task;
+            }
+            current = current.next;
+        }
+        return null; // Not found
+    }
+
+    // Traverse Tasks
+    public void traverseTasks() {
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.task);
+            current = current.next;
+        }
+    }
+
+    // Delete Task by ID
+    public void deleteTaskById(String taskId) {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+
+        if (head.task.getTaskId().equals(taskId)) {
+            head = head.next;
+            return;
+        }
+
+        Node current = head;
+        while (current.next != null && !current.next.task.getTaskId().equals(taskId)) {
+            current = current.next;
+        }
+
+        if (current.next != null) {
+            current.next = current.next.next;
+        } else {
+            System.out.println("Task not found.");
+        }
+    }
+}
+
+Step 4: Analysis
+Time Complexity
+
+1.Add Task:
+
+    Time Complexity: O(n) where n is the number of tasks, as it involves traversing the list to find the end.
+    Space Complexity: O(1) for the new node.
+
+2.Search Task:
+
+    Time Complexity: O(n) where n is the number of tasks, as it involves traversing the list.
+    Space Complexity: O(1)
+
+3.Traverse Tasks:
+
+    Time Complexity: O(n) where n is the number of tasks.
+    Space Complexity: O(1)
+
+4.Delete Task:
+
+    Time Complexity: O(n) where n is the number of tasks, as it involves traversing the list.
+    Space Complexity: O(1)
+
+Advantages of Linked Lists Over Arrays
+    Dynamic Size: Linked lists can grow and shrink dynamically as needed, unlike arrays which have a fixed size.
+    Efficient Insertions/Deletions: Insertions and deletions are more efficient with linked lists, particularly in the middle of the list, since they only require updating references without shifting elements.
+    Memory Utilization: Linked lists use memory more efficiently when the size of the dataset is highly variable, as they only allocate memory for the elements present.
+
+Limitations of Linked Lists
+    Memory Overhead: Each node requires extra memory for the reference to the next node.
+    Sequential Access: Accessing elements in a linked list requires sequential traversal, which can be slower compared to direct indexing in arrays.
+
+
+Example Usage
+// Main.java
+public class Main {
+    public static void main(String[] args) {
+        TaskManagementSystem system = new TaskManagementSystem();
+
+        // Adding Tasks
+        system.addTask(new Task("T001", "Design Database", "Pending"));
+        system.addTask(new Task("T002", "Implement Backend", "In Progress"));
+        system.addTask(new Task("T003", "Develop Frontend", "Completed"));
+
+        // Searching for a Task
+        System.out.println("Search Result: " + system.searchTaskById("T002"));
+
+        // Traversing All Tasks
+        System.out.println("All Tasks:");
+        system.traverseTasks();
+
+        // Deleting a Task
+        system.deleteTaskById("T001");
+        System.out.println("Tasks After Deletion:");
+        system.traverseTasks();
+    }
+}
+
+Search Result: Task{taskId='T002', taskName='Implement Backend', status='In Progress'}
+All Tasks:
+Task{taskId='T001', taskName='Design Database', status='Pending'}
+Task{taskId='T002', taskName='Implement Backend', status='In Progress'}
+Task{taskId='T003', taskName='Develop Frontend', status='Completed'}
+Tasks After Deletion:
+Task{taskId='T002', taskName='Implement Backend', status='In Progress'}
+Task{taskId='T003', taskName='Develop Frontend', status='Completed'}
+
+This code provides a complete implementation of a task management system using a singly linked list, demonstrating how to manage tasks efficiently.
+
+

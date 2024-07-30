@@ -1,0 +1,68 @@
+Step 1: Create a New Java Project
+Let's assume you've created a new Java project named SingletonPatternExample.
+
+Step 2: Define a Singleton Class
+Create a class named Logger in your project.
+
+// Logger.java
+public class Logger {
+    // Private static instance of itself
+    private static Logger instance;
+
+    // Private constructor to prevent instantiation
+    private Logger() {
+        // Initialize logging settings here if needed
+    }
+
+    // Public static method to provide the single instance
+    public static Logger getInstance() {
+        if (instance == null) {
+            instance = new Logger();
+        }
+        return instance;
+    }
+
+    // Example method to log messages
+    public void log(String message) {
+        System.out.println("Log message: " + message);
+    }
+}
+
+
+Step 3: Implement the Singleton Pattern
+The code above already implements the Singleton pattern by ensuring:
+
+The Logger class has a private static instance of itself.
+The constructor of Logger is private.
+A public static method getInstance() is provided to get the single instance of the Logger class.
+Step 4: Test the Singleton Implementation
+Create a test class to verify that only one instance of Logger is created and used across the application.
+
+// SingletonPatternExample.java
+public class SingletonPatternExample {
+    public static void main(String[] args) {
+        // Get the instance of Logger
+        Logger logger1 = Logger.getInstance();
+        Logger logger2 = Logger.getInstance();
+
+        // Log messages
+        logger1.log("This is the first log message.");
+        logger2.log("This is the second log message.");
+
+        // Verify that both logger1 and logger2 are the same instance
+        if (logger1 == logger2) {
+            System.out.println("logger1 and logger2 are the same instance.");
+        } else {
+            System.out.println("logger1 and logger2 are different instances.");
+        }
+    }
+}
+
+When you run SingletonPatternExample, you should see:
+
+Output:
+Log message: This is the first log message.
+Log message: This is the second log message.
+logger1 and logger2 are the same instance.
+
+This confirms that the Logger class is correctly following the Singleton design pattern.

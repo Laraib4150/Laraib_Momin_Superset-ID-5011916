@@ -1,0 +1,69 @@
+Step 1: Create a New Java Project
+Let's assume you've created a new Java project named DependencyInjectionExample.
+
+Step 2: Define Repository Interface
+Create an interface CustomerRepository with methods like findCustomerById().
+
+// CustomerRepository.java
+public interface CustomerRepository {
+    String findCustomerById(String id);
+}
+
+Step 3: Implement Concrete Repository
+Create a class CustomerRepositoryImpl that implements CustomerRepository.
+
+// CustomerRepositoryImpl.java
+public class CustomerRepositoryImpl implements CustomerRepository {
+    @Override
+    public String findCustomerById(String id) {
+        // Simulate a customer lookup
+        return "Customer with ID: " + id;
+    }
+}
+
+Step 4: Define Service Class
+Create a class CustomerService that depends on CustomerRepository.
+
+// CustomerService.java
+public class CustomerService {
+    private final CustomerRepository customerRepository;
+
+    // Constructor injection
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    public String getCustomerDetails(String id) {
+        return customerRepository.findCustomerById(id);
+    }
+}
+
+Step 5: Implement Dependency Injection
+In this step, we will use the CustomerService with CustomerRepositoryImpl through constructor injection.
+
+Step 6: Test the Dependency Injection Implementation
+Create a main class to demonstrate creating a CustomerService with CustomerRepositoryImpl and using it to find a customer.
+
+// DependencyInjectionExample.java
+public class DependencyInjectionExample {
+    public static void main(String[] args) {
+        // Create the repository
+        CustomerRepository customerRepository = new CustomerRepositoryImpl();
+
+        // Inject the repository into the service
+        CustomerService customerService = new CustomerService(customerRepository);
+
+        // Use the service to get customer details
+        String customerDetails = customerService.getCustomerDetails("12345");
+        System.out.println(customerDetails);
+    }
+}
+
+When you run DependencyInjectionExample, you should see output similar to:
+Output:
+Customer with ID: 12345
+
+This confirms that Dependency Injection is correctly implemented for managing dependencies between CustomerService and CustomerRepository.
+
+
+
